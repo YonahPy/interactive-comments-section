@@ -33,10 +33,14 @@
     margin: 0;
     padding: 0;
 }
+body{
+    background-color: hsl(223, 19%, 93%);
+}
     section{
         width: 60vw;
         margin: 0 auto;
         margin-top: 40px;
+        
         
     }
     p{
