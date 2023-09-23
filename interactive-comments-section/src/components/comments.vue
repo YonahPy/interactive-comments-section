@@ -18,70 +18,54 @@
                     </button>
             </div>
             <p class="content">{{ dataComments.content }}</p>
+
+
             <div class="section-reply" v-if="showReplyInput">
                 <input type="text" v-model="replyText">
                 <button class="add-replay" @click="addReply">Reply</button>
             </div>
+            
+            <reply v-for="reply in dataComments.replies" :key="reply.id">
 
-            <div v-if="dataComments.replies && dataComments.replies.length">
-                <div v-for="reply in dataComments.replies" :key="reply.id" class="reply">
+            </reply>
 
-                <div class="comments">
-        
-                    <div class="buttons">
-                        <button class="increase" @click="increaseLike">+</button>
-                        <span>{{ reply.score }}</span>
-                        <button class="decrease" @click="decreaseLike">-</button>
-                    </div>
-                    <div>
-                        <div class="profile">
-                            <img v-bind:src="reply.user.image.png" alt="perfil">
-                            <p class="username">{{ reply.user.username }}</p>
-                            <p>{{ reply.createdAt }}</p>
-                            <button class="show-input-reply" @click="toggleReplyInput">
-                                <svg width="14" height="13" xmlns="http://www.w3.org/2000/svg"><path d="M.227 4.316 5.04.16a.657.657 0 0 1 1.085.497v2.189c4.392.05 7.875.93 7.875 5.093 0 1.68-1.082 3.344-2.279 4.214-.373.272-.905-.07-.767-.51 1.24-3.964-.588-5.017-4.829-5.078v2.404c0 .566-.664.86-1.085.496L.227 5.31a.657.657 0 0 1 0-.993Z" fill="#5357B6"/>
-                                </svg>
-                                Reply
-                                </button>
-                        </div>
-                        <p class="content">{{ reply.content }}</p>
-                     
-                    </div>
-             </div>
-
-
-            </div>
-
-        </div>
+            
     </div>
 </div>
 </template>
 
 <script>
+
+import reply from './reply.vue'
+
  export default{
     props: ['dataComments'],
+    components:{
+        reply
+    },
     data(){
         return{
             amoutScore: this.dataComments.score,
             showReplyInput: false,
-            replyText: ''
+            replyText: '',
+            generateId: 4,
         }
     },
     methods:{
         increaseLike(){
-            this.amoutScorecore++;
+            this.amoutScore++;
         },
         decreaseLike(){
-            this.amoutScorecore--;
+            this.amoutScore--;
         },
         toggleReplyInput(){
             this.showReplyInput = !this.showReplyInput
         },
         addReply(){
             const newReply = {
-                id: generateUniqueId(),
+                id: this.generateUniqueId(),
                 content: this.replyText,
-                createdAt: currentDate(),
+                createdAt: this.currentDate(),
                 score: 0,
                 replyingTo: '',
                 user: {
@@ -94,9 +78,23 @@
             };
             this.dataComments.replies.push(newReply);
             this.replyText = '';
-            console.log(this.dataComments.replies);
             this.showReplyInput = false;
         },
+        generateUniqueId(){
+            this.generateId =  this.generateId + 1;
+            return this.generateId;
+        },
+        currentDate(){
+            const currentDate = new Date();
+
+            const day = currentDate.getDate().toString().padStart(2, '0');
+            const month = currentDate.toLocaleString('default', {month: 'short'});
+            const year = currentDate.getFullYear().toString().slice(-2);
+
+            const formatedDate = `${day}/${month}/${year}`;
+
+            return formatedDate;
+        }
         
         
     }
@@ -105,6 +103,7 @@
 </script>
 
 <style>
+
     .comments{
         display: flex;
         margin-bottom: 20px;
@@ -200,7 +199,13 @@
     .add-replay:hover{
        background-color: hsla(238, 40%, 52%, 0.548);
     }
-
+    .comments .comments-reply .buttons{
+        width: 35px;
+        
+    }
+.teste{
+    width: 100%
+}
 
     
 
