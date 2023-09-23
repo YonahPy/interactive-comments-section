@@ -25,7 +25,7 @@
                 <button class="add-replay" @click="addReply">Reply</button>
             </div>
             
-            <reply v-for="reply in dataComments.replies" :key="reply.id">
+            <reply v-for="reply in dataComments.replies" :key="reply.id" :dataReply="reply" :parentComment="dataComments">
 
             </reply>
 
@@ -134,6 +134,9 @@ import reply from './reply.vue'
         font-size: 16px;
         cursor: pointer;
     }
+    .buttons button:hover{
+        color: hsl(238, 40%, 52%);
+    }
     .profile{
         display: flex;
         margin-bottom: 15px;
@@ -199,13 +202,8 @@ import reply from './reply.vue'
     .add-replay:hover{
        background-color: hsla(238, 40%, 52%, 0.548);
     }
-    .comments .comments-reply .buttons{
-        width: 35px;
-        
-    }
-.teste{
-    width: 100%
-}
+  
+
 
     
 
