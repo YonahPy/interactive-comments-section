@@ -6,7 +6,7 @@
             <span>{{ amoutScore }}</span>
             <button class="decrease" @click="decreaseLike">-</button>
         </div>
-        <div>
+        <div class="teste">
             <div class="profile">
                  <img v-bind:src="dataComments.user.image.png" alt="perfil">
                  <p class="username">{{ dataComments.user.username }}</p>
@@ -21,7 +21,8 @@
 
 
             <div class="section-reply" v-if="showReplyInput">
-                <input type="text" v-model="replyText">
+                <textarea name="text" id="5" cols="30" rows="4" v-model="replyText"></textarea>
+                
                 <button class="add-replay" @click="addReply">Reply</button>
             </div>
             
@@ -110,6 +111,7 @@ import reply from './reply.vue'
         padding: 30px 25px;
         box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.185);
         background-color:  hsl(0, 0%, 100%);
+        
     }
     .buttons{
         background-color: rgb(226, 222, 222);
@@ -170,21 +172,22 @@ import reply from './reply.vue'
     .content{
         margin-left: 30px;
         margin-bottom: 20px;
+        word-break: break-all;
         
     }
     .section-reply{
         display: flex;
-        
     }
-    .section-reply input{
+    .section-reply textarea{
         margin-left: 30px;
         border-radius:10px ;
         width: 80%;
-        height: 100px;
+        height: 70px;
+        padding: 20px;
         border: 1px solid black;
         
     }
-    .section-reply input:focus{
+    .section-reply textarea:focus{
         border: 1px solid hsl(238, 40%, 52%);
         outline: none;
     }
@@ -202,6 +205,13 @@ import reply from './reply.vue'
     .add-replay:hover{
        background-color: hsla(238, 40%, 52%, 0.548);
     }
+    .teste{
+        width: 100%;
+    }
+    .buttons{
+        width: 35px;
+    }
+    
   
 
 

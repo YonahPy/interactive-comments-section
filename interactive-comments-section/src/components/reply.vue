@@ -20,7 +20,8 @@
             <p class="content">{{ dataReply.content }}</p>
 
             <div class="section-reply" v-if="showReplyInput">
-                <input type="text" v-model="replyText">
+                <textarea name="text" id="5" cols="30" rows="10" v-model="replyText"></textarea>
+                
                 <button class="add-replay" @click="addReply">Reply</button>
             </div>
             

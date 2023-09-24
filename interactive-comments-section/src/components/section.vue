@@ -5,6 +5,9 @@
         <comments  v-for="comment in data.comments" :key="comment.id" :dataComments="comment">
         </comments>
         
+        <commentField :dataComment="data">
+
+        </commentField>
     </section>
     
 </template>
@@ -12,14 +15,23 @@
 <script>
     import data from '../archives/data.json'
     import comments from './comments.vue'
+    import commentField from './commentField.vue'
 
     export default{
         components:{
-            comments
+            comments,
+            commentField,
+            
         },
         data(){
             return{
-                data: data
+                data: data,
+                text: ''
+            }
+        },
+        methods:{
+            addComment(textComment){
+                this.text = textComment;
             }
         }
     }
@@ -40,8 +52,7 @@ body{
         width: 60vw;
         margin: 0 auto;
         margin-top: 40px;
-        
-        
+       
     }
     p{
         color: hsl(211, 10%, 45%);
