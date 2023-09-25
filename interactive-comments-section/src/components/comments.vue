@@ -10,8 +10,16 @@
             <div class="profile">
                  <img v-bind:src="dataComments.user.image.png" alt="perfil">
                  <p class="username">{{ dataComments.user.username }}</p>
+                 <p class="you" v-if="currentUser"> You</p>
                  <p>{{ dataComments.createdAt }}</p>
-                 <button class="show-input-reply" @click="toggleReplyInput">
+
+                <div class="del-edit" v-if="currentUser">
+                    <button class="del"><img src="../archives/images/icon-delete.svg" alt="icondelete" @click="deleteComment">Delete</button>
+
+                    <button class="edit"> <img src="../archives/images/icon-edit.svg" alt="iconedit" @click="editComment">Edit</button>
+                </div>
+
+                 <button class="show-input-reply" v-if="!currentUser" @click="toggleReplyInput">
                     <svg width="14" height="13" xmlns="http://www.w3.org/2000/svg"><path d="M.227 4.316 5.04.16a.657.657 0 0 1 1.085.497v2.189c4.392.05 7.875.93 7.875 5.093 0 1.68-1.082 3.344-2.279 4.214-.373.272-.905-.07-.767-.51 1.24-3.964-.588-5.017-4.829-5.078v2.404c0 .566-.664.86-1.085.496L.227 5.31a.657.657 0 0 1 0-.993Z" fill="#5357B6"/>
                     </svg>
                      Reply
@@ -26,7 +34,7 @@
                 <button class="add-replay" @click="addReply">Reply</button>
             </div>
             
-            <reply v-for="reply in dataComments.replies" :key="reply.id" :dataReply="reply" :parentComment="dataComments">
+            <reply v-for="reply in dataComments.replies" :key="reply.id" :dataReply="reply" :parentComment="dataComments" :alldata="alldata">
 
             </reply>
 
@@ -38,9 +46,10 @@
 <script>
 
 import reply from './reply.vue'
+import {generateCommentId} from '../idService';
 
  export default{
-    props: ['dataComments'],
+    props: ['dataComments', 'alldata', 'indexx'],
     components:{
         reply
     },
@@ -49,7 +58,11 @@ import reply from './reply.vue'
             amoutScore: this.dataComments.score,
             showReplyInput: false,
             replyText: '',
-            generateId: 4,
+        }
+    },
+    computed:{
+        currentUser(){
+            return this.dataComments.user.username === this.alldata.currentUser.username
         }
     },
     methods:{
@@ -64,7 +77,7 @@ import reply from './reply.vue'
         },
         addReply(){
             const newReply = {
-                id: this.generateUniqueId(),
+                id: generateCommentId(),
                 content: this.replyText,
                 createdAt: this.currentDate(),
                 score: 0,
@@ -74,16 +87,13 @@ import reply from './reply.vue'
                     png: '',
                     webp: ''
                     },
-                    username: "Jonas Santos"
+                    username: this.alldata.currentUser.username
                 }
             };
+            
             this.dataComments.replies.push(newReply);
             this.replyText = '';
             this.showReplyInput = false;
-        },
-        generateUniqueId(){
-            this.generateId =  this.generateId + 1;
-            return this.generateId;
         },
         currentDate(){
             const currentDate = new Date();
@@ -93,8 +103,14 @@ import reply from './reply.vue'
             const year = currentDate.getFullYear().toString().slice(-2);
 
             const formatedDate = `${day}/${month}/${year}`;
-
+    
             return formatedDate;
+        },
+        deleteComment(){
+           this.alldata.comments.splice(this.indexx, 1)
+        },
+        editComment(){
+            
         }
         
         
@@ -211,7 +227,42 @@ import reply from './reply.vue'
     .buttons{
         width: 35px;
     }
-    
+    .you{
+        margin-right:20px ;
+        background-color: hsl(238, 40%, 52%);
+        padding: 1px 5px;
+        color: white;
+        border-radius:5px ;
+        
+    }
+    .del-edit{
+        position: absolute;
+        right: 0;
+    }
+    .del-edit button{
+        border: none;
+        background-color: transparent;
+        padding: 3px 5px;
+        border-radius: 10px;
+        font-size: 16px;
+        
+        
+    }
+    .del-edit button img{
+        margin-right: 5px;
+    }
+    .del{
+        color: hsl(358, 79%, 66%);
+    }
+    .del:hover{
+        background-color: hsla(358, 79%, 66%, 0.329);
+    }
+    .edit{
+       color: hsl(238, 40%, 52%); 
+    }
+    .edit:hover{
+        background-color: hsla(238, 40%, 52%, 0.336);
+    }
   
 
 

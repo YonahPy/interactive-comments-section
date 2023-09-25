@@ -2,7 +2,7 @@
     
         
     <section>
-        <comments  v-for="comment in data.comments" :key="comment.id" :dataComments="comment">
+        <comments  v-for="(comment, index) in data.comments" :key="comment.id" :dataComments="comment" :alldata="data" :indexx="index">
         </comments>
         
         <commentField :dataComment="data">
@@ -26,14 +26,9 @@
         data(){
             return{
                 data: data,
-                text: ''
+                
             }
         },
-        methods:{
-            addComment(textComment){
-                this.text = textComment;
-            }
-        }
     }
 
 </script>

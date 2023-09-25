@@ -9,12 +9,12 @@
 </template>
 
 <script>
+import {generateCommentId} from '../idService';
     export default{
         props: ['dataComment'],
         data(){
             return{
                 commentText: '',
-                generateId: 4,
 
             }
         },
@@ -22,7 +22,7 @@
             
             addComment(){
                 const newComment = {
-                    id: this.generateUniqueId(),
+                    id: generateCommentId(),
                     content: this.commentText,
                     createdAt: this.currentDate(),
                     score: 0,
@@ -32,7 +32,7 @@
                         png: '',
                         webp: ''
                         },
-                        username: "Jonas Santos"
+                        username: this.dataComment.currentUser.username
                     },
                     replies: []
                 };
@@ -41,10 +41,7 @@
             this.commentText = ''
 
             },
-            generateUniqueId(){
-            this.generateId =  this.generateId + 1;
-            return this.generateId;
-        },
+
             currentDate(){
             const currentDate = new Date();
 
