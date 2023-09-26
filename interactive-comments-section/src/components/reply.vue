@@ -17,9 +17,12 @@
                  <p>{{ dataReply.createdAt }}</p>
 
                  <div class="del-edit" v-if="currentUser">
-                    <button class="del"><img src="../archives/images/icon-delete.svg" alt="icondelete">Delete</button>
+                    <button class="del" @click="deleteReply">
+                        <img src="../archives/images/icon-delete.svg" alt="icondelete">
+                        Delete
+                    </button>
 
-                    <button class="edit"> <img src="../archives/images/icon-edit.svg" alt="iconedit">Edit</button>
+                    <button class="edit" @click="editReply"> <img src="../archives/images/icon-edit.svg" alt="iconedit">Edit</button>
                 </div>
 
                  <button class="show-input-reply"
@@ -36,6 +39,13 @@
                 
                 <button class="add-replay" @click="addReply">Reply</button>
             </div>
+
+            <div class="section-reply" v-if="editingReply">
+                <textarea name="text" id="5" cols="30" rows="4" v-model="replyTextEdit">
+                </textarea>
+                
+                <button class="add-replay" @click="addEditedReply">Edit</button>
+            </div>
             
         </div>
     </div>
@@ -45,12 +55,14 @@
 import {generateCommentId} from '../idService';
 
 export default {
-    props: ['dataReply', 'parentComment', 'alldata'],
+    props: ['dataReply', 'parentComment', 'alldata', 'index'],
     data(){
         return{
             amoutScore: this.dataReply.score,
             showReplyInput: false,
             replyText: '',
+            editingReply: false,
+            replyTextEdit: ''
         }
     },
     computed:{
@@ -98,7 +110,21 @@ export default {
 
             return formatedDate;
         },
-        
+        deleteReply(){
+            this.parentComment.replies.splice(this.index, 1)
+        },
+        editReply(){
+            this.editingReply = !this.editingReply
+        },
+        addEditedReply(){
+            this.dataReply.content = this.replyTextEdit
+            if (this.dataReply.content === ''){
+                this.parentComment.replies.splice(this.index, 1)
+            }
+            this.replyTextEdit = ''
+            this.editingReply = false
+        },
+
         
         
     }

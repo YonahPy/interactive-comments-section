@@ -14,9 +14,15 @@
                  <p>{{ dataComments.createdAt }}</p>
 
                 <div class="del-edit" v-if="currentUser">
-                    <button class="del"><img src="../archives/images/icon-delete.svg" alt="icondelete" @click="deleteComment">Delete</button>
+                    <button class="del" @click="deleteComment">
+                        <img src="../archives/images/icon-delete.svg" alt="icondelete">
+                        Delete
+                    </button>
 
-                    <button class="edit"> <img src="../archives/images/icon-edit.svg" alt="iconedit" @click="editComment">Edit</button>
+                    <button class="edit" @click="editComment"> 
+                        <img src="../archives/images/icon-edit.svg" alt="iconedit">
+                        Edit
+                    </button>
                 </div>
 
                  <button class="show-input-reply" v-if="!currentUser" @click="toggleReplyInput">
@@ -33,8 +39,15 @@
                 
                 <button class="add-replay" @click="addReply">Reply</button>
             </div>
+
+            <div class="section-reply" v-if="editingComment">
+                <textarea name="text" id="5" cols="30" rows="4" v-model="commentText">
+                </textarea>
+                
+                <button class="add-replay" @click="addEditedComment">Edit</button>
+            </div>
             
-            <reply v-for="reply in dataComments.replies" :key="reply.id" :dataReply="reply" :parentComment="dataComments" :alldata="alldata">
+            <reply v-for="(reply, index) in dataComments.replies" :key="reply.id" :dataReply="reply" :parentComment="dataComments" :alldata="alldata" :index="index">
 
             </reply>
 
@@ -58,6 +71,9 @@ import {generateCommentId} from '../idService';
             amoutScore: this.dataComments.score,
             showReplyInput: false,
             replyText: '',
+            editingComment: false,
+            commentText: ''
+
         }
     },
     computed:{
@@ -107,10 +123,19 @@ import {generateCommentId} from '../idService';
             return formatedDate;
         },
         deleteComment(){
-           this.alldata.comments.splice(this.indexx, 1)
+            this.alldata.comments.splice(this.indexx, 1)
+            
         },
         editComment(){
-            
+            this.editingComment = !this.editingComment;
+        },
+        addEditedComment(){
+            this.dataComments.content = this.commentText;
+            if (this.dataComments.content === ''){
+                this.alldata.comments.splice(this.indexx, 1)
+            }
+            this.commentText = ''
+            this.editingComment = false
         }
         
         
