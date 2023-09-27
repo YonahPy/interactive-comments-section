@@ -35,7 +35,7 @@
             <p class="content">{{ dataReply.content }}</p>
 
             <div class="section-reply" v-if="showReplyInput">
-                <textarea name="text" id="5" cols="30" rows="10" v-model="replyText"></textarea>
+                <textarea name="text" id="5" cols="30" rows="10" v-model="replyText" ></textarea>
                 
                 <button class="add-replay" @click="addReply">Reply</button>
             </div>
@@ -60,7 +60,7 @@ export default {
         return{
             amoutScore: this.dataReply.score,
             showReplyInput: false,
-            replyText: '',
+            replyText: '@'+this.dataReply.user.username,
             editingReply: false,
             replyTextEdit: ''
         }
@@ -68,6 +68,9 @@ export default {
     computed:{
         currentUser(){
             return this.dataReply.user.username === this.alldata.currentUser.username
+        },
+        replyTo(){
+            return this.parentComment.user.username
         }
     },
     methods:{

@@ -70,10 +70,9 @@ import {generateCommentId} from '../idService';
         return{
             amoutScore: this.dataComments.score,
             showReplyInput: false,
-            replyText: '',
+            replyText:'@'+this.dataComments.user.username,
             editingComment: false,
-            commentText: ''
-
+            commentText: '',
         }
     },
     computed:{
@@ -136,7 +135,8 @@ import {generateCommentId} from '../idService';
             }
             this.commentText = ''
             this.editingComment = false
-        }
+        },
+        
         
         
     }
@@ -145,7 +145,7 @@ import {generateCommentId} from '../idService';
 </script>
 
 <style>
-
+    
     .comments{
         display: flex;
         margin-bottom: 20px;
@@ -228,6 +228,8 @@ import {generateCommentId} from '../idService';
         border: 1px solid black;
         
     }
+    
+    
     .section-reply textarea:focus{
         border: 1px solid hsl(238, 40%, 52%);
         outline: none;
